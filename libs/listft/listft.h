@@ -6,7 +6,7 @@
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 00:01:18 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/09/23 19:38:47 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/10/03 03:36:18 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_node
 	struct s_list	*list;
 }	t_node;
 
-t_node	*lst_detach(t_node *node);
+t_node	*lst_detach(t_list *lst, t_node *node);
 t_node	*lst_push(t_list *lst, t_node *node);
 t_node	*lst_pop(t_list *lst);
 t_node	*lst_new_node(void *content);
@@ -37,6 +37,7 @@ t_node	*lst_add_after(t_node *target, t_node *node);
 t_node	*lst_add_before(t_node *target, t_node *node);
 t_node	*lst_add_first(t_list *lst, t_node *node);
 t_node	*lst_add_last(t_list *lst, t_node *node);
+void	lst_merge_sort(t_list *lst, int (*compare)(void*, void*));
 void	lst_delete_all(t_list *lst, void (*free_content)(void*));
 void	lst_delete_node(t_node *node, void (*free_content)(void*));
 void	lst_delete(t_list *lst, void (*free_content)(void*));

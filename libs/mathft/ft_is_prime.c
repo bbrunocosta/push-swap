@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delete_node.c                                  :+:      :+:    :+:   */
+/*   ft_is_prime.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/10/01 21:59:15 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/10/01 22:13:39 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "listft.h"
-#include <stdlib.h>
+#include "mathft.h"
 
-void	lst_delete_node(t_node *node, void (*free_content)(void*))
+int	ft_is_prime(size_t n)
 {
-	if (node->prev)
-		node->prev->next = node->next;
-	else
-		node->list->first = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	else
-		node->list->last = node->prev;
-	if (node->list->count > 0)
-		node->list->count--;
-	if(free_content)
-		free_content(node->content);
-	free(node);
+	size_t	i;
+
+	if (n < 2 || n % 2 == 0)
+		return (0);
+	if (n == 2 || n == 3)
+		return (1);
+	i = 3;
+	while (i * i <= n)
+	{
+		if (n % i == 0)
+			return (0);
+		i += 2;
+	}
+	return (1);
 }

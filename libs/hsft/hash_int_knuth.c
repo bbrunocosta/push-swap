@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delete_node.c                                  :+:      :+:    :+:   */
+/*   hash_int_knuth.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/09/27 23:01:55 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/10/03 01:59:17 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "listft.h"
-#include <stdlib.h>
+#include "hsft.h"
 
-void	lst_delete_node(t_node *node, void (*free_content)(void*))
+size_t hash_int_knuth(void *key, size_t size)
 {
-	if (node->prev)
-		node->prev->next = node->next;
+	size_t	A;
+
+	if ((sizeof(void*) == 8))
+		A = 11400714819323198485ull;
 	else
-		node->list->first = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	else
-		node->list->last = node->prev;
-	if (node->list->count > 0)
-		node->list->count--;
-	if(free_content)
-		free_content(node->content);
-	free(node);
+		A = 2654435761u;
+	return (*(size_t*) key * A % size);
 }

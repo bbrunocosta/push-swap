@@ -6,7 +6,7 @@
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 00:01:18 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/08/20 13:28:53 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/10/03 02:22:18 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ typedef struct s_string
 {
 	char	*value;
 	size_t	length;
+	
 }	t_string;
 
 t_string	*str_new(size_t len);

@@ -1,31 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delete_node.c                                  :+:      :+:    :+:   */
+/*   next_prime.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/10/01 22:05:30 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/10/01 22:56:22 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "listft.h"
-#include <stdlib.h>
+#include "mathft.h"
 
-void	lst_delete_node(t_node *node, void (*free_content)(void*))
+size_t	next_prime(size_t n)
 {
-	if (node->prev)
-		node->prev->next = node->next;
-	else
-		node->list->first = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	else
-		node->list->last = node->prev;
-	if (node->list->count > 0)
-		node->list->count--;
-	if(free_content)
-		free_content(node->content);
-	free(node);
+	if (n < 2)
+		return (2);
+	if (n % 2 == 0)
+		n++;
+	while (!ft_is_prime(n))
+		n += 2;
+	return (n);
 }

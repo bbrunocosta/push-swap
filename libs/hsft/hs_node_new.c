@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delete_node.c                                  :+:      :+:    :+:   */
+/*   hs_node_new.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/10/01 20:46:23 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/10/01 22:50:11 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "listft.h"
-#include <stdlib.h>
+#include "memft.h"
+#include "hsft.h"
 
-void	lst_delete_node(t_node *node, void (*free_content)(void*))
+t_hsnode	*hsnode_new(void *content)
 {
-	if (node->prev)
-		node->prev->next = node->next;
-	else
-		node->list->first = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	else
-		node->list->last = node->prev;
-	if (node->list->count > 0)
-		node->list->count--;
-	if(free_content)
-		free_content(node->content);
-	free(node);
+	t_hsnode	*node;
+
+	node = ft_calloc(1, sizeof(t_hsnode));
+	if (!node)
+		return (NULL);
+	node->key = content;
+	return (node);
 }

@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_delete_node.c                                  :+:      :+:    :+:   */
+/*   hs_free.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/10/01 20:55:10 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/10/03 05:06:14 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "listft.h"
+#include "hsft.h"
 #include <stdlib.h>
 
-void	lst_delete_node(t_node *node, void (*free_content)(void*))
+void hs_free(t_hashset *hs, void(*free_key)(void*))
 {
-	if (node->prev)
-		node->prev->next = node->next;
-	else
-		node->list->first = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	else
-		node->list->last = node->prev;
-	if (node->list->count > 0)
-		node->list->count--;
-	if(free_content)
-		free_content(node->content);
-	free(node);
+	size_t		i;
+	t_hsnode	*node;
+	t_hsnode	*next;
+
+	i = 0;
+	while (i < hs->size)
+	{
+		node = hs->buckets[i];
+		while (node)
+		{
+			next = node->next;
+			free_key(node->key);
+			node = next;
+		}
+		i++;
+	}
+	free(hs->buckets);
+	free(hs);
 }
