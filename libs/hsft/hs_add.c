@@ -32,7 +32,7 @@ void	hs_add(t_hashset *hs, void *key)
 		node = hs->buckets[hash];
 		while (node)
 		{
-			if(hs->compare_func(node->key, key))
+			if(hs->compare_func(node->key, key) == 0)
 				return ;
 			node = node->next;
 		}
@@ -42,6 +42,6 @@ void	hs_add(t_hashset *hs, void *key)
 		hs->count++;
 	}
 
-    if ((double)hs->count / (double)hs->size > 0.7)
-        hs_resize(hs);
+	if ((double)hs->count / (double)hs->size > 0.7)
+			hs_resize(hs);
 }

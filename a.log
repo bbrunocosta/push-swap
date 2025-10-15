@@ -1,0 +1,3 @@
+cc -Wall -Wextra -Werror -Ilibs/charft -Ilibs/listft -Ilibs/mathft -Ilibs/memft -Ilibs/hsft -Ilibs/stringft -c libs/listft/lst_add_after.c -o obj/libs/listft/*.o
+ar rcs libft.a obj/libs/hsft/*.o obj/libs/charft/*.o obj/libs/listft/*.o obj/libs/mathft/*.o obj/libs/memft/*.o obj/libs/stringft/*.o
+cc  -Ilibs/charft -Ilibs/listft -Ilibs/mathft -Ilibs/memft -Ilibs/hsft -Ilibs/stringft libft.a libs/hsft/*.c libs/charft/*.c libs/listft/*.c libs/mathft/*.c libs/memft/*.c libs/stringft/*.c  *.c && ./a.out 1 5 8 9 7 4 3 

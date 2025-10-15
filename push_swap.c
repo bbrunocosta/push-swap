@@ -5,6 +5,11 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+
+void	multiway_push_sort(t_list *a, t_list *b, int n_chunks);
+void radix_base4(t_list *a, t_list *b);
+
+
 void pa(t_list *a, t_list *b)
 {
 	printf("PA\n");
@@ -70,12 +75,13 @@ void rb(t_list *a, t_list *b)
 {
 	printf("RB\n");
 	(void)a;
-	if(b->count > 1)
+	if (b->count > 1)
 	{
-		t_node *node = lst_detach(b, b->last);
-		lst_push(b, node);
+		t_node *node = lst_detach(b, b->first);  // <--- Muda para o primeiro!
+		lst_add_last(b, node);                  // <--- Coloca no final.
 	}
 }
+
 void rrb(t_list *a, t_list *b)
 {
 	printf("RRB\n");
@@ -266,6 +272,32 @@ void	set_rank(t_list *lst)
 	}
 }
 
+void	chunk_sort(t_list *a, t_list *b);
+
+
+void radix_sort(t_list *a, t_list *b)
+{
+
+	unsigned int i = 0;
+	unsigned int log = ilog2_ceil(a->count);
+	while(i < log)
+	{
+		size_t j = 0;
+		size_t count = a->count;
+		while(j < count)
+		{
+			if(((t_context*)a->first->content)->rank >> i & 1)
+				ra(a, b);
+			else
+			pb(a, b);
+			j++;
+		}
+		i++;
+	}
+
+	while(b->first)
+		pa(a, b);
+}
 
 int main(int argc, char **argv)
 {
@@ -291,26 +323,12 @@ int main(int argc, char **argv)
 	set_rank(&b);
 	// lst_delete_all(&b, NULL);
 
-	unsigned int i = 0;
-	unsigned int log = ilog2_ceil(a.count);
-	while(i < log)
-	{
-		size_t j = 0;
-		size_t count = a.count;
-		while(j < count)
-		{
-			if(((t_context*)a.first->content)->rank >> i & 1)
-				ra(&a, &c);
-			else
-			pb(&a, &c);
-			j++;
-		}
-		while(c.first)
-			pa(&a, &c);
-		i++;
-	}
+	radix_base4(&a, &c);
+	multiway_push_sort(&a, &c, 3);
+	// radix_sort(&a, &c);
+	// chunk_sort(&a, &c);
 
-	// print_stacks(&a, &b);
+	// print_stacks(&a, &c);
 	// hs_free(hs, free);
 	// lst_delete_all(&a, free);
 	// lst_delete_all(&b, free);
@@ -349,3 +367,6 @@ int main(int argc, char **argv)
 	// lst_delete_all(&b, free);
 	return (0);
 }
+
+
+

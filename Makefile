@@ -59,4 +59,6 @@ re: fclean all
 
 
 start: all
-	$(CC)  $(INC_FLAGS) $(NAME) $(SRCS) *.c && ./a.out 1 5 8 9 7 4 3 
+	$(CC) $(INC_FLAGS) $(NAME) $(SRCS) *.c && ./a.out $(shell shuf -i 1-$(N) -n $(N))
+
+
