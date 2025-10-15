@@ -7,7 +7,8 @@
 #include <string.h>
 
 void	multiway_push_sort(t_list *a, t_list *b, int n_chunks);
-void radix_base4(t_list *a, t_list *b);
+void 	radix_base3(t_list *a, t_list *b);
+void 	radix_base4(t_list *a, t_list *b);
 
 
 void pa(t_list *a, t_list *b)
@@ -21,6 +22,13 @@ void pb(t_list *a, t_list *b)
 	printf("PB\n");
 	if (a->count)
 		lst_push(b, lst_pop(a));
+}
+
+void pbb(t_list *a, t_list *b)
+{
+	printf("PBB\n");
+	if (a->count)
+		lst_add_last(b, lst_pop(a));
 }
 void sa(t_list *a, t_list *b)
 {
@@ -187,7 +195,9 @@ typedef struct s_context
 {
 	int number;
 	size_t rank;
+	char *rank_string;
 }	t_context;
+
 void print_stacks(t_list *a, t_list *b)
 {
     char buffer[10000];   // buffer grande o suficiente
@@ -197,8 +207,7 @@ void print_stacks(t_list *a, t_list *b)
     t_node *nb = b->first;
 
     // clear screen
-    offset += sprintf(buffer + offset, "\033[3J\033[H\033[2J");
-
+    offset += sprintf(buffer + offset, "\033[3J\033[H\033[2J\n\n");
     while (na || nb)
     {
         if (na && nb)
@@ -215,7 +224,36 @@ void print_stacks(t_list *a, t_list *b)
 
     offset += sprintf(buffer + offset, "\nA     B\n");
 
-    printf("%s", buffer);
+    printf("%s\n", buffer);
+}
+
+void print_stacks_base3(t_list *a, t_list *b)
+{
+    char buffer[10000];   // buffer grande o suficiente
+    size_t offset = 0;
+
+    t_node *na = a->first;
+    t_node *nb = b->first;
+
+    // clear screen
+    offset += sprintf(buffer + offset, "\033[3J\033[H\033[2J\n\n");
+    while (na || nb)
+    {
+        if (na && nb)
+            offset += sprintf(buffer + offset, "%-5s %-5s\n",
+                              ((t_context*)na->content)->rank_string, ((t_context*)nb->content)->rank_string);
+        else if (na)
+            offset += sprintf(buffer + offset, "%-5s\n", ((t_context*)na->content)->rank_string);
+        else if (nb)
+            offset += sprintf(buffer + offset, "      %-5s\n", ((t_context*)nb->content)->rank_string);
+
+        if (na) na = na->next;
+        if (nb) nb = nb->next;
+    }
+
+    offset += sprintf(buffer + offset, "\nA     B\n");
+
+    printf("%s\n", buffer);
 }
 int	compare(void *a, void *b)
 {
@@ -277,33 +315,80 @@ void	chunk_sort(t_list *a, t_list *b);
 
 void radix_sort(t_list *a, t_list *b)
 {
+    if (!a || a->count < 2)
+        return;
 
-	unsigned int i = 0;
-	unsigned int log = ilog2_ceil(a->count);
-	while(i < log)
-	{
-		size_t j = 0;
-		size_t count = a->count;
-		while(j < count)
-		{
-			if(((t_context*)a->first->content)->rank >> i & 1)
-				ra(a, b);
-			else
-			pb(a, b);
-			j++;
-		}
-		i++;
-	}
+    unsigned int i = 0;
+    unsigned int log = ilog2_ceil(a->count);
 
-	while(b->first)
-		pa(a, b);
+    while (i < log)
+    {
+        size_t j = 0;
+        size_t count = a->count;
+
+        while (j < count)
+        {
+            t_context *ctx = a->first->content;
+            if ((ctx->rank >> i) & 1)
+                ra(a, b);
+            else
+                pb(a, b);
+            j++;
+        }
+
+        // devolve tudo de volta pra A
+        while (b->first)
+            pa(a, b);
+
+        i++;
+    }
 }
+#include<math.h>
+void radix_base3_real(t_list *a)
+{
+    t_list b0 =  {0};
+    t_list b1 =  {0};
+    t_list b2 =  {0};
+    t_list b3 =  {0};
+
+	int base = 4;
+    int max_rank = a->count - 1;
+    int digits = ceil(log(max_rank + 1) / log(base));
+
+    for (int d = 0; d < digits; d++)
+    {
+        while (a->count)
+        {
+            t_context *ctx = a->first->content;
+            int digit = (ctx->rank / (int)pow(base, d)) % base;
+
+            if (digit == 0)
+                pb(a, &b0);
+            else if (digit == 1)
+                pb(a, &b1);
+			else if (digit == 2)
+                pb(a, &b2);
+            else
+                pb(a, &b3);
+        }
+		while (b3.count)
+			pa(a, &b3);
+		while (b2.count)
+			pa(a, &b2);
+		while (b1.count)
+			pa(a, &b1);
+		while (b0.count)
+			pa(a, &b0);
+    }
+}
+
 
 int main(int argc, char **argv)
 {
 	t_list a = {0};
 	t_list b = {0};
 	t_list c = {0};
+	
 	t_hashset *hs;
 
 	parse_argv(&a, &argv);
@@ -323,8 +408,9 @@ int main(int argc, char **argv)
 	set_rank(&b);
 	// lst_delete_all(&b, NULL);
 
-	radix_base4(&a, &c);
-	multiway_push_sort(&a, &c, 3);
+	// radix_base4(&a, &c);
+	radix_base3_real(&a);
+	// multiway_push_sort(&a, &c, 3);
 	// radix_sort(&a, &c);
 	// chunk_sort(&a, &c);
 
@@ -367,6 +453,3 @@ int main(int argc, char **argv)
 	// lst_delete_all(&b, free);
 	return (0);
 }
-
-
-

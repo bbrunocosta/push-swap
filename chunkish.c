@@ -10,7 +10,8 @@
 ** ========================================
 */
 
-
+void print_stacks_base3(t_list *a, t_list *b);
+void print_stacks(t_list *a, t_list *b);
 void pa(t_list *a, t_list *b);
 void pb(t_list *a, t_list *b);
 void sa(t_list *a, t_list *b);
@@ -22,6 +23,7 @@ void rra(t_list *a, t_list *b);
 void ra(t_list *a, t_list *b);
 void ss(t_list *a, t_list *b);
 void sb(t_list *a, t_list *b);
+void pbb(t_list *a, t_list *b);
 
 
 
@@ -29,6 +31,7 @@ typedef struct s_context
 {
 	int number;
 	size_t rank;
+	char *rank_string;
 }	t_context;
 
 
@@ -227,111 +230,174 @@ void	multiway_push_sort(t_list *a, t_list *b, int n_chunks)
 		rotate_to_top(a, b, pos_min, 'a');
 }
 
-void radix_base4(t_list *a, t_list *b)
+
+
+
+char *to_base_string(int n, int max_len, int base)
 {
-    int max_rank = a->count - 1;
-    int digits = 0;
-
-    while ((max_rank >> (2 * digits)) != 0)
-        digits++;
-
-    for (int d = 0; d < digits; d++)
+    char *s = calloc(max_len + 1, sizeof(char));
+    for (int i = max_len - 1; i >= 0; i--)
     {
-        int size = a->count;
-        for (int j = 0; j < size; j++)
-        {
-            int rank = ((t_context*)a->first->content)->rank;
-            int digit = (rank >> (2 * d)) & 0b11; // 0..3
+        s[i] = '0' + (n % base);
+        n /= base;
+    }
+    return s;
+}
+int base_len(int n, int base)
+{
+    return (int)ceil(log(n + 1) / log(base));
+}
+#include <string.h>
+void radix_base2(t_list *a, t_list *b)
+{
+    if (!a || a->count < 2)
+        return;
 
-            if (digit == 0)
-                pb(a, b);              // bucket 0 → B
+
+}
+
+void radix_base3(t_list *a, t_list *b)
+{
+    if (!a || a->count < 2)
+        return;
+
+    int len = base_len(a->count, 3);
+
+    t_node *n = a->first;
+    while (n)
+    {
+        t_context *ctx = n->content;
+        ctx->rank_string = to_base_string(ctx->rank, len, 3);
+        n = n->next;
+    }
+
+    for (int i = len - 1; i >= 0; i--)
+    {
+        size_t count = a->count;
+        for (size_t j = 0; j < count; j++)
+        {
+            t_context *ctx = a->first->content;
+            char digit = ctx->rank_string[i];
+
+            if (digit == '2')
+				ra(a, b);
+            else if (digit == '1')
+				pb(a, b);
             else
-                ra(a, b);              // mantém em A (temporariamente)
-        }
-
-        // 1️⃣ devolve bucket 0 (os com digit==0)
-        while (b->count)
-            pa(a, b);
-
-        // 2️⃣ segunda varredura: bucket 1
-        size = a->count;
-        for (int j = 0; j < size; j++)
-        {
-            int rank = ((t_context*)a->first->content)->rank;
-            int digit = (rank >> (2 * d)) & 0b11;
-            if (digit == 1)
+            {
                 pb(a, b);
-            else
-                ra(a, b);
+                rb(a, b);
+            }
         }
-        while (b->count)
-            pa(a, b);
 
-        // 3️⃣ bucket 2
-        size = a->count;
-        for (int j = 0; j < size; j++)
-        {
-            int rank = ((t_context*)a->first->content)->rank;
-            int digit = (rank >> (2 * d)) & 0b11;
-            if (digit == 2)
-                pb(a, b);
-            else
-                ra(a, b);
-        }
-        while (b->count)
-            pa(a, b);
 
-        // 4️⃣ bucket 3
-        size = a->count;
-        for (int j = 0; j < size; j++)
+		count = b->count;
+        for (size_t k = 0; k < count; k++)
         {
-            int rank = ((t_context*)a->first->content)->rank;
-            int digit = (rank >> (2 * d)) & 0b11;
-            if (digit == 3)
-                pb(a, b);
+            t_context *ctx = b->first->content;
+            char digit = ctx->rank_string[i];
+
+            if (digit == '1')
+				pa(a, b);
             else
-                ra(a, b);
+            {
+                rrb(a, b);
+                pa(a, b);
+            }
         }
-        while (b->count)
-            pa(a, b);
     }
 }
 
 
-// void radix_base4(t_list *a, t_list *b)
-// {
-//     int max_bits = 0;
-//     int max_rank = a->count - 1;
+void radix_base4(t_list *a, t_list *b)
+{
+    if (!a || a->count < 2)
+        return;
 
-//     // calcula quantos dígitos base 4 (2 bits) são necessários
-//     while ((max_rank >> (2 * max_bits)) != 0)
-//         max_bits++;
+    int len = base_len(a->count, 4);
 
-//     for (int i = 0; i < max_bits; i++)
-//     {
-//         size_t count = a->count;
-//         for (size_t j = 0; j < count; j++)
-//         {
-//             int rank = ((t_context*)a->first->content)->rank;
-//             int digit = (rank >> (2 * i)) & 0b11; // extrai 2 bits
+    t_node *n = a->first;
+    while (n)
+    {
+        t_context *ctx = n->content;
+        ctx->rank_string = to_base_string(ctx->rank, len, 4);
+        n = n->next;
+    }
 
-//             if (digit == 0)
-//                 ra(a, b);
-//             else if (digit == 1)
-//                 pb(a, b);
-//             else if (digit == 2)
-//                 rb(a, b);
-//             else if (digit == 3)
-//                 rrb(a, b);
-//         }
+    for (int i = len - 1; i >= 0; i--)
+    {
+        size_t count = a->count;
+        for (size_t j = 0; j < count; j++)
+        {
+            t_context *ctx = a->first->content;
+            char digit = ctx->rank_string[i];
 
-//         // depois de processar os 4 grupos, retorna todos para A
-//         while (b->count > 0)
-//             pa(a, b);
-//     }
+            if (digit == '3')
+				ra(a, b);
+            else if (digit == '1' || digit == '2')
+				pb(a, b);
+            else
+            {
+                pb(a, b);
+                rb(a, b);
+            }
+        }
+		
+		// print_stacks_base3(a, b);
 
-//     // garante que o menor valor (rank 0) fique no topo
-//     int pos_min = find_position(a, 0);
-//     if (pos_min >= 0)
-//         rotate_to_top(a, b, pos_min, 'a');
-// }
+		int reversed_1_count = 0;
+
+		// 1️⃣ varre devolvendo 2, empurrando 1 para o fundo e parando ao encontrar 0
+		count = b->count;
+		while (count)
+		{
+			t_context *ctx = b->first->content;
+			char digit = ctx->rank_string[i];
+
+			if (digit == '0')
+				break;
+
+			if (digit == '2')
+				pa(a, b);
+			else
+			{
+				rb(a, b);              // empurra '1' pro fundo
+				reversed_1_count++;
+			}
+			count--;
+		}
+
+		// 2️⃣ reverte as rotações dos '1'
+		while (reversed_1_count--)
+			rrb(a, b);
+
+		// 3️⃣ devolve todos os '1' (agora em ordem correta)
+		count = b->count;
+		while (count--)
+		{
+			t_context *ctx = b->first->content;
+			char digit = ctx->rank_string[i];
+
+			if (digit == '1')
+				pa(a, b);
+			else
+				rb(a, b);              // pula os '0'
+		}
+
+		// 4️⃣ agora devolve os '0' do fundo — só gira se realmente houver '0'
+		while (b->count)
+		{
+			t_context *ctx = b->last->content;
+			if (ctx->rank_string[i] == '0')
+			{
+				rrb(a, b);
+				pa(a, b);
+			}
+			else
+				break; // topo e fundo já limpos
+		}
+
+		// print_stacks_base3(a, b);
+    }
+}
+

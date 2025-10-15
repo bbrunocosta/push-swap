@@ -6,7 +6,7 @@
 #    By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/20 13:53:43 by bcosta-b          #+#    #+#              #
-#    Updated: 2025/10/03 05:08:16 by bcosta-b         ###   ########.fr        #
+#    Updated: 2025/10/15 15:11:49 by bcosta-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,6 @@ re: fclean all
 
 
 start: all
-	$(CC) $(INC_FLAGS) $(NAME) $(SRCS) *.c && ./a.out $(shell shuf -i 1-$(N) -n $(N))
+	$(CC) $(INC_FLAGS) -lm $(NAME) $(SRCS) *.c && ./a.out $(shell shuf -i 1-$(N) -n $(N))
 
 
