@@ -118,7 +118,7 @@ int	find_position(t_list *stack, int rank)
 	pos = 0;
 	while (node)
 	{
-		if (((t_context *)node->content)->rank == rank)
+		if (((t_context *)node->content)->rank == (size_t)rank)
 			return (pos);
 		node = node->next;
 		pos++;
@@ -196,7 +196,7 @@ void	distribute_chunks(t_list *a, t_list *b, int n_chunks)
 {
 	int max_rank = a->count - 1;
 	int chunk_size = ceil((double)(max_rank + 1) / n_chunks);
-	t_node *n = a->first;
+	(void)a;
 
 	while (a->count > 0)
 	{
@@ -250,6 +250,7 @@ int base_len(int n, int base)
 #include <string.h>
 void radix_base2(t_list *a, t_list *b)
 {
+    (void)b;
     if (!a || a->count < 2)
         return;
 

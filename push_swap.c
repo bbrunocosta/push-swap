@@ -1,5 +1,6 @@
 #include "listft.h"
 #include "hsft.h"
+#include "charft.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -10,29 +11,100 @@ void	multiway_push_sort(t_list *a, t_list *b, int n_chunks);
 void 	radix_base3(t_list *a, t_list *b);
 void 	radix_base4(t_list *a, t_list *b);
 
+// Função para contar palavras em uma string
+static int	count_words(char *s)
+{
+	int count = 0;
+	int in_word = 0;
+	
+	while (*s)
+	{
+		if (ft_isspace(*s))
+			in_word = 0;
+		else if (!in_word)
+		{
+			in_word = 1;
+			count++;
+		}
+		s++;
+	}
+	return count;
+}
+
+// Função para copiar uma palavra
+static char	*word_dup(char *start, char *end)
+{
+	int len = end - start;
+	char *word = malloc(len + 1);
+	if (!word)
+		return NULL;
+	memcpy(word, start, len);
+	word[len] = '\0';
+	return word;
+}
+
+// Função para dividir string em palavras (split)
+static char	**ft_split(char *s)
+{
+	char **result;
+	int words = count_words(s);
+	int i = 0;
+	char *start;
+	
+	result = malloc(sizeof(char *) * (words + 1));
+	if (!result)
+		return NULL;
+	
+	while (*s)
+	{
+		while (*s && ft_isspace(*s))
+			s++;
+		if (*s)
+		{
+			start = s;
+			while (*s && !ft_isspace(*s))
+				s++;
+			result[i++] = word_dup(start, s);
+		}
+	}
+	result[i] = NULL;
+	return result;
+}
+
+// Função para liberar array de strings
+static void	free_split(char **split)
+{
+	int i = 0;
+	if (!split)
+		return;
+	while (split[i])
+		free(split[i++]);
+	free(split);
+}
+
 
 void pa(t_list *a, t_list *b)
 {
-	printf("PA\n");
+	printf("pa\n");
 	if (b->count)
 		lst_push(a, lst_pop(b));
 }
 void pb(t_list *a, t_list *b)
 {
-	printf("PB\n");
+	printf("pb\n");
 	if (a->count)
 		lst_push(b, lst_pop(a));
 }
 
 void pbb(t_list *a, t_list *b)
 {
-	printf("PBB\n");
+	printf("pbb\n");
 	if (a->count)
 		lst_add_last(b, lst_pop(a));
 }
 void sa(t_list *a, t_list *b)
 {
-	printf("SA\n");
+	printf("sa\n");
 	(void)b;
 	t_node *fisrt = lst_pop(a);
 	t_node *second = lst_pop(a);
@@ -43,7 +115,7 @@ void sa(t_list *a, t_list *b)
 }
 void sb(t_list *a, t_list *b)
 {
-	printf("SB\n");
+	printf("sb\n");
 	(void) a;
 	t_node *fisrt = lst_pop(b);
 	t_node *second = lst_pop(b);
@@ -54,13 +126,13 @@ void sb(t_list *a, t_list *b)
 }
 void ss(t_list *a, t_list *b)
 {
-	printf("SS\n");
+	printf("ss\n");
 	sa(a,b);
 	sb(a,b);
 }
 void ra(t_list *a, t_list *b)
 {
-	printf("RA\n");
+	printf("ra\n");
 	(void)b;
 	if(a->count > 1)
 	{
@@ -81,7 +153,7 @@ void rra(t_list *a, t_list *b)
 
 void rb(t_list *a, t_list *b)
 {
-	printf("RB\n");
+	printf("rb\n");
 	(void)a;
 	if (b->count > 1)
 	{
@@ -92,7 +164,7 @@ void rb(t_list *a, t_list *b)
 
 void rrb(t_list *a, t_list *b)
 {
-	printf("RRB\n");
+	printf("rrb\n");
 	(void)a;
 	if(b->count > 1)
 	{
@@ -102,13 +174,13 @@ void rrb(t_list *a, t_list *b)
 }
 void rr(t_list *a, t_list *b)
 {
-	printf("RR\n");
+	printf("rr\n");
 	ra(a,b);
 	rb(a,b);
 }
 void rrr(t_list *a, t_list *b)
 {
-	printf("RRR\n");
+	printf("rrr\n");
 	rra(a,b);
 	rrb(a,b);
 }
@@ -272,10 +344,28 @@ t_context	*new_ctx(int n)
 void parse_argv(t_list *s, char ***argv)
 {
 	char **ptr = *argv;
+	char **split;
+	char **split_ptr;
+	
 	ptr++;
 	while(*ptr)
 	{
-		lst_add_last(s, lst_new_node(new_ctx(ft_atoi(*ptr))));
+		// Se contém espaço, divide a string
+		if (strchr(*ptr, ' '))
+		{
+			split = ft_split(*ptr);
+			split_ptr = split;
+			while (split_ptr && *split_ptr)
+			{
+				lst_add_last(s, lst_new_node(new_ctx(ft_atoi(*split_ptr))));
+				split_ptr++;
+			}
+			free_split(split);
+		}
+		else
+		{
+			lst_add_last(s, lst_new_node(new_ctx(ft_atoi(*ptr))));
+		}
 		ptr++;
 	}
 }
@@ -409,9 +499,9 @@ int main(int argc, char **argv)
 	// lst_delete_all(&b, NULL);
 
 	// radix_base4(&a, &c);
-	radix_base3_real(&a);
+	// radix_base3_real(&a);
 	// multiway_push_sort(&a, &c, 3);
-	// radix_sort(&a, &c);
+	radix_sort(&a, &c);
 	// chunk_sort(&a, &c);
 
 	// print_stacks(&a, &c);
