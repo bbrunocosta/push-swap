@@ -1,32 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   radix_sort.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 12:17:37 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 12:25:18 by bcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
+
+static void	process_bit(t_list *a, t_list *b, size_t bit)
+{
+	size_t		i;
+	size_t		size;
+	t_context	*ctx;
+
+	i = 0;
+	size = a->count;
+	while (i < size)
+	{
+		ctx = a->first->content;
+		if ((ctx->rank >> bit) & 1)
+			ra(a, b);
+		else
+			pb(a, b);
+		i++;
+	}
+	while (b->first)
+		pa(a, b);
+}
 
 void	radix_sort(t_list *a, t_list *b)
 {
-	unsigned int	i;
-	unsigned int	log;
-	size_t			j;
-	size_t			count;
-	t_context		*ctx;
+	size_t	bit;
+	size_t	max_bits;
 
 	if (!a || a->count < 2)
 		return ;
-	i = 0;
-	log = ilog2_ceil(a->count);
-	while (i < log)
+	bit = 0;
+	max_bits = ilog2_ceil(a->count);
+	while (bit < max_bits)
 	{
-		j = 0;
-		count = a->count;
-		while (j < count)
-		{
-			ctx = a->first->content;
-			if ((ctx->rank >> i) & 1)
-				ra(a, b);
-			else
-				pb(a, b);
-			j++;
-		}
-		while (b->first)
-			pa(a, b);
-		i++;
+		process_bit(a, b, bit);
+		bit++;
 	}
 }

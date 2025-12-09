@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_delete_node.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 17:36:30 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 04:01:42 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/08 14:07:44 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	lst_delete_node(t_node *node, void (*free_content)(void*))
 		node->list->last = node->prev;
 	if (node->list->count > 0)
 		node->list->count--;
-	if(free_content)
+	if (free_content)
 		free_content(node->content);
 	free(node);
 }

@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_rank.c                                         :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 12:13:16 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:13:17 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/12/09 12:53:58 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 12:57:50 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include <stddef.h>
 
-void	set_rank(t_list *lst)
+char	*ft_strchr(const char *s, int c)
 {
-	t_node		*node;
-	size_t		i;
-	t_context	*ctx;
+	unsigned char	ch;
 
-	node = lst->first;
-	i = 0;
-	while (node)
+	ch = (unsigned char)c;
+	while (*s)
 	{
-		ctx = node->content;
-		ctx->rank = i;
-		node = node->next;
-		i++;
+		if ((unsigned char)*s == ch)
+			return ((char *)s);
+		s++;
 	}
+	if (ch == '\0')
+		return ((char *)s);
+	return (NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hsft.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 00:01:18 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 05:01:48 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 12:35:14 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ typedef struct s_hashset
 	struct s_hsnode	**buckets;
 	size_t			size;
 	size_t			count;
-	size_t			(*hash_func)(void*, size_t);
-	int				(*compare_func)(void*,void*);
-	void			(*free_func)(struct s_hashset*, void(*free_key)(void*));
+	size_t			(*hash_func)(void *, size_t);
+	int				(*compare_func)(void*, void*);
+	void			(*free_func)(struct s_hashset*, void (*free_key)(void*));
 	void			(*free_key)(void*);
 }	t_hashset;
 
-void		hs_free(t_hashset *hs, void(*free_key)(void*));
+void		hs_free(t_hashset *hs, void (*free_key)(void*));
 void		hs_resize(t_hashset *hs);
 void		hs_add(t_hashset *hs, void *key);
 
@@ -40,20 +40,14 @@ size_t		hash_int_knuth(void *key, size_t size);
 
 t_hsnode	*hsnode_new(void *key);
 
-t_hashset	*hs_new
-(
-	size_t size,
-	size_t (*hash_func)(void*, size_t),
-	int (*compare_func)(void*,void*),
-	void (*free_key)(void*)
-);
+t_hashset	*hs_new(size_t size,
+				size_t (*hash_func)(void*, size_t),
+				int (*compare_func)(void*, void*),
+				void (*free_key)(void*));
 
-t_hashset	*hs_from_lst
-(
-	t_list *lst,
-	size_t(*hash_func)(void*, size_t), 
-	int(*compare_func)(void*,void*),
-	void (*free_key)(void*)
-);
+t_hashset	*hs_from_lst(t_list *lst,
+				size_t (*hash_func)(void*, size_t),
+				int (*compare_func)(void*, void*),
+				void (*free_key)(void*));
 
 #endif

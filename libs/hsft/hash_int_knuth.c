@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   hash_int_knuth.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/27 23:01:55 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/03 01:59:17 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:28:13 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "hsft.h"
 
-size_t hash_int_knuth(void *key, size_t size)
+size_t	hash_int_knuth(void *key, size_t size)
 {
-	size_t	A;
+	size_t	a;
 
-	if ((sizeof(void*) == 8))
-		A = 11400714819323198485ull;
+	if ((sizeof(void *) == 8))
+		a = 11400714819323198485ull;
 	else
-		A = 2654435761u;
-	return (*(size_t*) key * A % size);
+		a = 2654435761u;
+	return (*(size_t *)key * a % size);
 }

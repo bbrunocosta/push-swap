@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_split.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/12/09 12:41:04 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 12:53:26 by bcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
+#include "memft.h"
 
 static int	count_words(char *s)
 {
@@ -30,7 +43,7 @@ static char	*word_dup(char *start, char *end)
 	word = malloc(len + 1);
 	if (!word)
 		return (NULL);
-	memcpy(word, start, len);
+	ft_memcpy(word, start, len);
 	word[len] = '\0';
 	return (word);
 }

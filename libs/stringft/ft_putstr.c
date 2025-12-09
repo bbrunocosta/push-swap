@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_rank.c                                         :+:      :+:    :+:   */
+/*   ft_putstr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 12:13:16 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:13:17 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/12/09 12:49:24 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 12:57:35 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include <unistd.h>
+#include "stringft.h"
 
-void	set_rank(t_list *lst)
+size_t	ft_putstr(char *str)
 {
-	t_node		*node;
-	size_t		i;
-	t_context	*ctx;
+	size_t	len;
 
-	node = lst->first;
-	i = 0;
-	while (node)
-	{
-		ctx = node->content;
-		ctx->rank = i;
-		node = node->next;
-		i++;
-	}
+	if (!str)
+		return (0);
+	len = ft_strlen(str);
+	return (write(1, str, len));
 }

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   mathft.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 01:05:52 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/10/01 22:56:08 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/08 12:20:18 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATHFT_H
 # define MATHFT_H
-#include <stddef.h>
+# include <stddef.h>
 
 unsigned long long	ft_abs(long long number);
 int					ft_atoi(const char *nptr);
