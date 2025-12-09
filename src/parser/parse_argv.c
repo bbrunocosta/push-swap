@@ -6,12 +6,13 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:07:59 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:55:14 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:17:06 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "stringft.h"
+#include "mathft.h"
 
 void	parse_argv(t_list *s, char ***argv)
 {

@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dup_content.c                                      :+:      :+:    :+:   */
+/*   ilog2_ceil.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 12:12:56 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:12:57 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/12/09 12:13:33 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 13:06:22 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-void	*dup_content(void *content)
+int	ilog2_ceil(unsigned int n)
 {
-	return (content);
+	int				log;
+	unsigned int	tmp;
+
+	log = -1;
+	tmp = n;
+	while (tmp)
+	{
+		tmp >>= 1;
+		log++;
+	}
+	if ((1U << log) < n)
+		log++;
+	return (log);
 }

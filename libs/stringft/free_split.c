@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   context_compare.c                                  :+:      :+:    :+:   */
+/*   free_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 12:13:06 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:13:07 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/12/09 12:06:55 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 13:08:22 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include <stdlib.h>
 
-int	context_compare(void *a, void *b)
+void	free_split(char **split)
 {
-	return (((t_context *)a)->number - ((t_context *)b)->number);
+	int	i;
+
+	i = 0;
+	if (!split)
+		return ;
+	while (split[i])
+		free(split[i++]);
+	free(split);
 }

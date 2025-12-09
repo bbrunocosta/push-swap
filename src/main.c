@@ -1,29 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                     :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 00:00:00 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/08 00:00:00 by bcosta-b         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bcosta-b <bcosta-b@student.42sp.org.br>    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/08 00:00:00 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/08 00:00:00 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:19:40 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include "stringft.h"
-#include <math.h>
+#include "hsft.h"
+#include <stdlib.h>
+
+static int	compare(void *a, void *b)
+{
+	return (((t_context *)a)->number - ((t_context *)b)->number);
+}
+
+static void	*dup_content(void *content)
+{
+	return (content);
+}
+
+static void	lst_dup(t_list *src, t_list *dest, void *(*dup)(void *))
+{
+	t_node	*node;
+
+	node = src->first;
+	while (node)
+	{
+		lst_add_last(dest, lst_new_node(dup(node->content)));
+		node = node->next;
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -43,7 +55,7 @@ int	main(int argc, char **argv)
 		ft_putstr("Error\n");
 		return (1);
 	}
-	lst_merge_sort(&b, context_compare);
+	lst_merge_sort(&b, compare);
 	set_rank(&b);
 	radix_sort(&a, &c);
 	return (0);

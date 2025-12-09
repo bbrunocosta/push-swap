@@ -6,7 +6,7 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:13:16 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:13:17 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:26:49 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	set_rank(t_list *lst)
 {
-	t_node		*node;
 	size_t		i;
+	t_node		*node;
 	t_context	*ctx;
 
 	node = lst->first;

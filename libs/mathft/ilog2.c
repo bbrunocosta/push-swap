@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_dup.c                                          :+:      :+:    :+:   */
+/*   ilog2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/09 12:13:40 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:13:41 by bcosta-b         ###   ########.fr       */
+/*   Created: 2025/12/09 12:15:33 by bcosta-b          #+#    #+#             */
+/*   Updated: 2025/12/09 13:07:07 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
-void	lst_dup(t_list *src, t_list *dest, void *(*dup_content)(void *))
+int	ilog2(unsigned int n)
 {
-	t_node	*node;
+	int	log;
 
-	node = src->first;
-	while (node)
+	log = -1;
+	while (n)
 	{
-		lst_add_last(dest, lst_new_node(dup_content(node->content)));
-		node = node->next;
+		n >>= 1;
+		log++;
 	}
+	return (log);
 }

@@ -6,11 +6,12 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:17:37 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:25:18 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:31:03 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+#include "mathft.h"
 
 static void	process_bit(t_list *a, t_list *b, size_t bit)
 {

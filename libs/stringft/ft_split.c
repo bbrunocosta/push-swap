@@ -6,12 +6,13 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 12:41:04 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 12:53:26 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 13:09:28 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
 #include "memft.h"
+#include "charft.h"
+#include <stdlib.h>
 
 static int	count_words(char *s)
 {
