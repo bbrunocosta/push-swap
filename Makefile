@@ -6,12 +6,12 @@
 #    By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/20 13:53:43 by bcosta-b          #+#    #+#              #
-#    Updated: 2025/12/08 11:28:53 by bcosta-b         ###   ########.fr        #
+#    Updated: 2025/12/09 19:00:01 by bcosta-b         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME       = push_swap
-LIBFT      = libft.a
+LIBS      = libs.a
 CC         = cc
 CFLAGS     = -Wall -Wextra -Werror
 AR         = ar rcs
@@ -37,7 +37,7 @@ PUSH_SWAP_SRCS = \
 	$(wildcard $(SRCDIR)/utils/*.c) \
 	$(wildcard $(SRCDIR)/algorithms/*.c)
 
-LIB_OBJS        = $(patsubst %.c,$(OBJDIR)/%.o,$(LIB_SRCS))
+LIBS_OBJS        = $(patsubst %.c,$(OBJDIR)/%.o,$(LIB_SRCS))
 PUSH_SWAP_OBJS  = $(patsubst %.c,$(OBJDIR)/%.o,$(PUSH_SWAP_SRCS))
 
 INC_FLAGS = \
@@ -51,11 +51,11 @@ INC_FLAGS = \
 
 all: $(NAME)
 
-$(LIBFT): $(LIB_OBJS)
+$(LIBS): $(LIBS_OBJS)
 	$(AR) $@ $^
 
-$(NAME): $(LIBFT) $(PUSH_SWAP_OBJS)
-	$(CC) $(CFLAGS) $(PUSH_SWAP_OBJS) $(LIBFT) -lm -o $@
+$(NAME): $(LIBS) $(PUSH_SWAP_OBJS)
+	$(CC) $(CFLAGS) $(PUSH_SWAP_OBJS) $(LIBS) -lm -o $@
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -67,7 +67,7 @@ clean:
 bonus: all
 
 fclean: clean
-	$(RM) $(NAME) $(LIBFT)
+	$(RM) $(NAME) $(LIBS)
 
 re: fclean all
 

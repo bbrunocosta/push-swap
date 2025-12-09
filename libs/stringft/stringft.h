@@ -6,7 +6,7 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 00:01:18 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/09 13:08:57 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:44:58 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,6 @@ size_t		put_string(t_string *str);
 void		str_free(void *str);
 void		free_split(char **split);
 char		**ft_split(char *s);
+int			ft_is_number(char *str);
 
 #endif
