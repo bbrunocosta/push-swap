@@ -6,7 +6,7 @@
 /*   By: bcosta-b <bcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 20:55:10 by bcosta-b          #+#    #+#             */
-/*   Updated: 2025/12/08 12:29:22 by bcosta-b         ###   ########.fr       */
+/*   Updated: 2025/12/09 18:07:14 by bcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	hs_free(t_hashset *hs, void (*free_key)(void*))
 		while (node)
 		{
 			next = node->next;
-			free_key(node->key);
+			if (free_key)
+				free_key(node->key);
+			free(node);
 			node = next;
 		}
 		i++;
