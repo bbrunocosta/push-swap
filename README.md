@@ -92,14 +92,12 @@ O comando `make test` irá:
 - Validar com o checker_linux
 - Mostrar resultado (OK/KO) e número de movimentos
 - Algum argumento não é um número inteiro
-- Algum argumento excede os limites de um inteiro
-- Existem números duplicados
+## 📊 Tratamento de Erros
 
-### ⚠️ Importante
-
-O parsing dos números é feito usando `atoi()`, portanto:
-- **Números maiores que INT_MAX (2147483647) ou menores que INT_MIN (-2147483648) terão comportamento indefinido**
-- Recomenda-se usar apenas números dentro do intervalo válido de um inteiro de 32 bits
+O programa imprime `Error` nos seguintes casos:
+- Argumento não é um número inteiro
+- Argumento excede os limites INT_MIN (-2147483648) ou INT_MAX (2147483647)
+- Números duplicados
 
 ## 🏗️ Estrutura do Projeto
 
